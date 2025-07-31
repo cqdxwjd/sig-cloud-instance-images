@@ -1,4 +1,20 @@
-FROM scratch
+FROM scratch AS os
 ADD centos-8-x86_64.tar.xz /
 LABEL org.label-schema.schema-version="1.0"     org.label-schema.name="CentOS Base Image"     org.label-schema.vendor="CentOS"     org.label-schema.license="GPLv2"     org.label-schema.build-date="20210915"
+
+FROM os AS base
+
+RUN mkdir -p /etc/yum.repos.d/backup && \
+    mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/backup/ && \
+    curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-8.repo && \
+    yum makecache && \
+    yum install -y \
+        java-1.8.0-openjdk-devel \
+        telnet \
+        net-tools && \
+    yum clean all
+
+ENV JAVA_HOME=/usr/lib/jvm/java
+ENV PATH="$JAVA_HOME/bin:$PATH"
+
 CMD ["/bin/bash"]
