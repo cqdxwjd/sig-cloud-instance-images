@@ -1,0 +1,16 @@
+FROM hub.hmf.xyz/base/hmf-centos:8 AS base
+
+RUN yum makecache && \
+    yum install -y \
+        krb5-workstation \
+        openssh-clients \
+        openssh-server \
+        krb5-libs && \
+    yum clean all
+
+ENV JAVA_HOME=/usr/lib/jvm/java
+ENV PATH="$JAVA_HOME/bin:$PATH"
+
+COPY conf/krb5-client.conf /etc/krb5.conf
+
+CMD ["/bin/bash", "-c", "tail -f /dev/null"]
