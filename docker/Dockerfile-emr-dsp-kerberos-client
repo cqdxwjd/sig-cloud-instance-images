@@ -2,6 +2,7 @@ FROM hub.hmf.xyz/base/hmf-centos:8 AS base
 
 RUN yum makecache && \
     yum install -y \
+        openssl-libs \
         krb5-workstation \
         krb5-libs && \
     yum clean all
