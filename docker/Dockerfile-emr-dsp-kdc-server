@@ -7,9 +7,6 @@ RUN yum makecache && \
         krb5-server && \
     yum clean all
 
-ENV JAVA_HOME=/usr/lib/jvm/java
-ENV PATH="$JAVA_HOME/bin:$PATH"
-
 COPY conf/krb5.conf /etc/krb5.conf
 COPY conf/kdc.conf /var/kerberos/krb5kdc/kdc.conf
 COPY conf/kadm5.acl /var/kerberos/krb5kdc/kadm5.acl
